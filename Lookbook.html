@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beau Wingfield — 2026 Lookbook</title>
+<style>
+  @font-face {
+    font-family: 'DigestiveFive';
+    src: url('assets/DigestiveDemo-Five.otf') format('opentype');
+  }
+  @font-face {
+    font-family: 'DigestiveSmall';
+    src: url('assets/DigestiveDemo-Small.otf') format('opentype');
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0e0e0e;
+    --fg: #f0ede8;
+    --dim: rgba(240,237,232,0.38);
+    --border: rgba(240,237,232,0.07);
+    --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --spring-soft: cubic-bezier(0.22, 1.4, 0.36, 1);
+  }
+
+  html, body {
+    width: 100%; height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'DigestiveSmall', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #stage { position: fixed; inset: 0; overflow: hidden; }
+
+  #strip {
+    display: flex;
+    width: 100%; height: 100%;
+    will-change: transform;
+  }
+
+  .section {
+    flex: 0 0 100vw;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Cover ── */
+  #cover {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .cover-eyebrow {
+    font-family: 'DigestiveSmall', serif;
+    font-size: clamp(11px, 1.2vw, 15px);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 1.8rem;
+  }
+  .cover-title {
+    font-family: 'DigestiveFive', serif;
+    font-size: clamp(80px, 12vw, 170px);
+    line-height: 0.86;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .cover-sub {
+    font-family: 'DigestiveSmall', serif;
+    font-size: clamp(10px, 1.1vw, 14px);
+    letter-spacing: 0.35em;
+    color: var(--dim);
+    margin-top: 2.8rem;
+    text-transform: uppercase;
+  }
+  .enter-btn {
+    margin-top: 3.6rem;
+    font-family: 'DigestiveSmall', serif;
+    font-size: clamp(10px, 1vw, 13px);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 0.9em 2.4em;
+    cursor: pointer;
+    background: transparent;
+    transition: color 0.3s var(--spring), border-color 0.3s var(--spring), transform 0.4s var(--spring);
+  }
+  .enter-btn:hover { color: var(--fg); border-color: rgba(240,237,232,0.45); transform: scale(1.06); }
+  .enter-btn:active { transform: scale(0.96); }
+
+  /* ── Chapter layout ── */
+  .chapter {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    height: 100%;
+  }
+  .chapter-sidebar {
+    padding: 52px 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--border);
+    position: relative;
+    z-index: 2;
+  }
+  .chapter-num {
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    color: var(--dim);
+    text-transform: uppercase;
+  }
+  .chapter-title-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 0;
+  }
+  .chapter-title {
+    font-family: 'DigestiveFive', serif;
+    font-size: clamp(32px, 4vw, 58px);
+    line-height: 0.88;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    letter-spacing: 0.06em;
+  }
+  .chapter-desc {
+    font-family: 'DigestiveSmall', serif;
+    font-size: clamp(9px, 0.95vw, 12px);
+    line-height: 1.75;
+    color: var(--dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-wrap: pretty;
+  }
+  .chapter-main {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 52px 52px 80px 52px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(240,237,232,0.12) transparent;
+  }
+  .chapter-main::-webkit-scrollbar { width: 3px; }
+  .chapter-main::-webkit-scrollbar-track { background: transparent; }
+  .chapter-main::-webkit-scrollbar-thumb { background: rgba(240,237,232,0.12); border-radius: 2px; }
+
+  .section-label {
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin: 40px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label:first-child { margin-top: 0; }
+
+  /* ── Grids ── */
+  .img-grid { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: 1fr 1fr; }
+  .g3 { grid-template-columns: 1fr 1fr 1fr; }
+  .g4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  /* ── Tile ── */
+  .tile {
+    position: relative;
+    overflow: hidden;
+    background: #181818;
+    cursor: zoom-in;
+    transition: transform 0.5s var(--spring), box-shadow 0.5s var(--spring);
+  }
+  .tile:hover { transform: scale(1.025) translateY(-3px); box-shadow: 0 20px 60px rgba(0,0,0,0.6); z-index: 1; }
+  .tile:active { transform: scale(0.975); transition-duration: 0.2s; }
+  .tile img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: transform 0.7s var(--spring-soft);
+  }
+  .tile:hover img { transform: scale(1.04); }
+
+  .tile.ar43  { aspect-ratio: 4/3; }
+  .tile.ar169 { aspect-ratio: 16/9; }
+  .tile.ar11  { aspect-ratio: 1/1; }
+  .tile.ar34  { aspect-ratio: 3/4; }
+  .tile.ar32  { aspect-ratio: 3/2; }
+  .tile.ar21  { aspect-ratio: 2/1; }
+  .tile.ar31  { aspect-ratio: 3/1; }
+  .tile.span2 { grid-column: span 2; }
+  .tile.span3 { grid-column: span 3; }
+  .tile.span4 { grid-column: span 4; }
+
+  .tile-label {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 32px 14px 12px;
+    background: linear-gradient(transparent, rgba(10,10,10,0.75));
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: rgba(240,237,232,0.55);
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s var(--spring), transform 0.35s var(--spring);
+  }
+  .tile:hover .tile-label { opacity: 1; transform: translateY(0); }
+
+  /* ── Nav ── */
+  #nav {
+    position: fixed;
+    bottom: 36px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; align-items: center; gap: 7px;
+    z-index: 200;
+    background: rgba(14,14,14,0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 10px 22px;
+    border: 1px solid var(--border);
+  }
+  .ndot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(240,237,232,0.22);
+    cursor: pointer; border: none;
+    transition: background 0.35s var(--spring), transform 0.4s var(--spring);
+    padding: 0;
+  }
+  .ndot:hover { transform: scale(1.5); background: rgba(240,237,232,0.5); }
+  .ndot.active { background: var(--fg); transform: scale(1.5); }
+  .ndot:active { transform: scale(0.85); }
+  .nsep { width: 1px; height: 14px; background: var(--border); margin: 0 8px; }
+  .nlabel {
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--dim);
+    min-width: 90px; text-align: center;
+    transition: color 0.3s;
+  }
+
+  /* ── Arrows ── */
+  .arr {
+    position: fixed; top: 50%;
+    transform: translateY(-50%) scale(1);
+    z-index: 200;
+    width: 44px; height: 44px;
+    background: rgba(14,14,14,0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    color: var(--fg); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    transition: border-color 0.3s var(--spring), transform 0.4s var(--spring), background 0.3s;
+  }
+  .arr:hover { border-color: rgba(240,237,232,0.35); transform: translateY(-50%) scale(1.12); background: rgba(14,14,14,0.85); }
+  .arr:active { transform: translateY(-50%) scale(0.9); transition-duration: 0.15s; }
+  #arr-prev { left: 18px; }
+  #arr-next { right: 18px; }
+  .arr.gone { opacity: 0; pointer-events: none; }
+
+  /* ── Logo ── */
+  #logo {
+    position: fixed; top: 32px; left: 36px;
+    font-family: 'DigestiveFive', serif;
+    font-size: clamp(13px, 1.3vw, 17px);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    z-index: 200; cursor: pointer; line-height: 1.1;
+    transition: opacity 0.3s var(--spring), transform 0.4s var(--spring);
+  }
+  #logo:hover { opacity: 0.55; transform: scale(0.97); }
+
+  #counter {
+    position: fixed; top: 34px; right: 36px;
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--dim); text-transform: uppercase;
+    z-index: 200;
+  }
+
+  #progress {
+    position: fixed; top: 0; left: 0; height: 1px;
+    background: rgba(240,237,232,0.25);
+    z-index: 300;
+    transition: width 0.7s var(--spring-soft);
+  }
+
+  /* ── Lightbox ── */
+  #lightbox {
+    position: fixed; inset: 0; z-index: 500;
+    background: rgba(10,10,10,0.97);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s; cursor: zoom-out;
+  }
+  #lightbox.open { opacity: 1; pointer-events: all; }
+  #lb-img {
+    max-width: 88vw; max-height: 88vh; object-fit: contain;
+    transform: scale(0.88) translateY(12px);
+    transition: transform 0.55s var(--spring);
+  }
+  #lightbox.open #lb-img { transform: scale(1) translateY(0); }
+  #lb-close {
+    position: fixed; top: 26px; right: 32px;
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px; letter-spacing: 0.35em;
+    color: var(--dim); text-transform: uppercase;
+    cursor: pointer; background: none; border: none;
+    transition: color 0.25s var(--spring), transform 0.3s var(--spring);
+  }
+  #lb-close:hover { color: var(--fg); transform: scale(1.1); }
+  #lb-caption {
+    position: fixed; bottom: 32px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DigestiveSmall', serif;
+    font-size: 10px; letter-spacing: 0.3em;
+    color: var(--dim); text-transform: uppercase; white-space: nowrap;
+  }
+</style>
+
+<template id="__bundler_thumbnail" data-bg-color="#0e0e0e">
+  <svg viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+    <rect width="120" height="80" fill="#0e0e0e"/>
+    <text x="60" y="36" font-size="22" text-anchor="middle" fill="#f0ede8" font-family="serif" font-style="italic">B</text>
+    <text x="60" y="54" font-size="7" text-anchor="middle" fill="rgba(240,237,232,0.4)" font-family="sans-serif" letter-spacing="3">LOOKBOOK</text>
+  </svg>
+</template>
+</head>
+<body>
+<div id="stage">
+  <div id="strip">
+
+    <!-- 0: Cover -->
+    <div class="section" id="cover" data-index="0">
+      <div class="cover-eyebrow" style="margin: 0px 0px 32px; font-size: 16px;">2026</div>
+      <div class="cover-title">Beau's<br>Look<br>Book</div>
+      <div class="cover-sub" style="font-size: 16px;">Visual Product Designer</div>
+      <button class="enter-btn" id="enter-btn" style="border-radius: 8px; font-size: 13px; padding: 12px 32px; margin: 64px 0px 0px; border-style: solid; border-width: 2px;">Enter →</button>
+    </div>
+
+    <!-- 1: skate. -->
+    <div class="section" data-index="1">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">01 / 10</div>
+          <div class="chapter-title-wrap" style="height: 900px;"><div class="chapter-title">skate.</div></div>
+          <div class="chapter-desc" style="font-size: 12px;">App design, brand identity &amp; digital product work for skate.</div>
+        </div>
+        <div class="chapter-main">
+          <div class="section-label">UI Screens</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-skate-ui-screens.png','skate. — UI Screens')"><img src="assets/v2-skate-ui-screens.png" alt=""><div class="tile-label">UI Screens</div></div>
+          </div>
+
+          <div class="section-label">Music Playlist Manager</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-skate-playlist.png','skate. — Music Playlist Manager')"><img src="assets/v2-skate-playlist.png" alt=""><div class="tile-label">Music Playlist Manager</div></div>
+          </div>
+
+          <div class="section-label">Vee</div>
+          <div class="img-grid g2">
+            <div class="tile ar34" onclick="lb('assets/v2-skate-vee.png','skate. — Vee')"><img src="assets/v2-skate-vee.png" alt=""><div class="tile-label">Vee</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-skate-hub-icons.png','skate. — HUB Icons')"><img src="assets/v2-skate-hub-icons.png" alt=""><div class="tile-label">HUB Icons</div></div>
+          </div>
+
+          <div class="section-label">Graphic Elements &amp; Wallpapers</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-skate-graphic-elements.jpg','skate. — Graphic Elements Exploration')"><img src="assets/v2-skate-graphic-elements.jpg" alt=""><div class="tile-label">Graphic Elements</div></div>
+            <div class="tile ar169 span2" onclick="lb('assets/v2-skate-wallpapers.png','skate. — Wallpapers')"><img src="assets/v2-skate-wallpapers.png" alt=""><div class="tile-label">Wallpapers</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2: EA -->
+    <div class="section" data-index="2">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">02 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">EA</div></div>
+          <div class="chapter-desc">Product design &amp; illustration for Electronic Arts.</div>
+        </div>
+        <div class="chapter-main">
+          <div class="section-label">Screens</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-ea-screens.png','EA — Screens')"><img src="assets/v2-ea-screens.png" alt=""><div class="tile-label">Screens</div></div>
+            <div class="tile ar169 span2" onclick="lb('assets/v2-ea-welcome.png','EA — Welcome Screens')"><img src="assets/v2-ea-welcome.png" alt=""><div class="tile-label">Welcome Screens</div></div>
+          </div>
+
+          <div class="section-label">Quantum Design System</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-ea-quantum.png','EA — Quantum Components')"><img src="assets/v2-ea-quantum.png" alt=""><div class="tile-label">Quantum Components</div></div>
+            <div class="tile ar31 span2" onclick="lb('assets/v2-ea-image3.png','EA — Detail')"><img src="assets/v2-ea-image3.png" alt=""><div class="tile-label">Detail</div></div>
+          </div>
+
+          <div class="section-label">Playbook Illustration</div>
+          <div class="img-grid g2">
+            <div class="tile ar43 span2" onclick="lb('assets/v2-ea-playbook.png','EA — Playbook Illo')"><img src="assets/v2-ea-playbook.png" alt=""><div class="tile-label">Playbook Illo</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3: Publix -->
+    <div class="section" data-index="3">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">03 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Publix</div></div>
+          <div class="chapter-desc">UX design, documentation &amp; social content for Publix.</div>
+        </div>
+        <div class="chapter-main">
+          <div class="section-label">Search &amp; Filters</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-publix-search.png','Publix — Search Results')"><img src="assets/v2-publix-search.png" alt=""><div class="tile-label">Search Results</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-publix-filters.png','Publix — Filters')"><img src="assets/v2-publix-filters.png" alt=""><div class="tile-label">Filters</div></div>
+            <div class="tile ar169" onclick="lb('assets/v2-publix-events.png','Publix — Events')"><img src="assets/v2-publix-events.png" alt=""><div class="tile-label">Events</div></div>
+          </div>
+
+          <div class="section-label">Social</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-publix-social-illos.png','Publix — Social Illos')"><img src="assets/v2-publix-social-illos.png" alt=""><div class="tile-label">Social Illustrations</div></div>
+            <div class="tile ar11" onclick="lb('assets/v2-publix-social-post.png','Publix — Social Post')"><img src="assets/v2-publix-social-post.png" alt=""><div class="tile-label">Social Post</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-publix-docs.png','Publix — Documentation')"><img src="assets/v2-publix-docs.png" alt=""><div class="tile-label">Documentation</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4: MMRY Bank -->
+    <div class="section" data-index="4">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">04 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">MMRY Bank</div></div>
+          <div class="chapter-desc">End-to-end product design for a memory-banking fintech app.</div>
+        </div>
+        <div class="chapter-main">
+          <div class="section-label">App</div>
+          <div class="img-grid g2">
+            <div class="tile ar43 span2" onclick="lb('assets/v2-mmry-home.png','MMRY Bank — Home Screen')"><img src="assets/v2-mmry-home.png" alt=""><div class="tile-label">Home Screen</div></div>
+            <div class="tile ar11" onclick="lb('assets/v2-mmry-ftue.png','MMRY Bank — FTUE')"><img src="assets/v2-mmry-ftue.png" alt=""><div class="tile-label">FTUE</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-mmry-trustee.png','MMRY Bank — Trustee Flow')"><img src="assets/v2-mmry-trustee.png" alt=""><div class="tile-label">Trustee Flow</div></div>
+          </div>
+
+          <div class="section-label">MMRYs</div>
+          <div class="img-grid g2">
+            <div class="tile ar11 span2" onclick="lb('assets/v2-mmry-mmrys.png','MMRY Bank — MMRYs')"><img src="assets/v2-mmry-mmrys.png" alt=""><div class="tile-label">MMRYs</div></div>
+          </div>
+
+          <div class="section-label">Web &amp; Marketing</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-mmry-webapp.png','MMRY Bank — Web App')"><img src="assets/v2-mmry-webapp.png" alt=""><div class="tile-label">Web App</div></div>
+            <div class="tile ar169 span2" onclick="lb('assets/v2-mmry-marketing.png','MMRY Bank — Marketing Site')"><img src="assets/v2-mmry-marketing.png" alt=""><div class="tile-label">Marketing Site</div></div>
+            <div class="tile ar31 span2" onclick="lb('assets/v2-mmry-appstore.jpg','MMRY Bank — App Store')"><img src="assets/v2-mmry-appstore.jpg" alt=""><div class="tile-label">App Store</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5: ATC -->
+    <div class="section" data-index="5">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">05 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">ATC</div></div>
+          <div class="chapter-desc">Full product design across web, mobile &amp; marketing for ATC.</div>
+        </div>
+        <div class="chapter-main">
+          <div class="section-label">Marketing Site</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-atc-responsive.png','ATC — Responsive')"><img src="assets/v2-atc-responsive.png" alt=""><div class="tile-label">Responsive</div></div>
+            <div class="tile ar169" onclick="lb('assets/v2-atc-marketing.png','ATC — Marketing Site')"><img src="assets/v2-atc-marketing.png" alt=""><div class="tile-label">Marketing Site</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-atc-mobile-menu.png','ATC — Mobile Menu')"><img src="assets/v2-atc-mobile-menu.png" alt=""><div class="tile-label">Mobile Menu</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-atc-mobile.png','ATC — Mobile')"><img src="assets/v2-atc-mobile.png" alt=""><div class="tile-label">Mobile</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-atc-tablet.png','ATC — Tablet')"><img src="assets/v2-atc-tablet.png" alt=""><div class="tile-label">Tablet</div></div>
+          </div>
+
+          <div class="section-label">Product</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-atc-leaderboards.png','ATC — Leaderboards')"><img src="assets/v2-atc-leaderboards.png" alt=""><div class="tile-label">Leaderboards</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-atc-profiles.png','ATC — Profiles')"><img src="assets/v2-atc-profiles.png" alt=""><div class="tile-label">Profiles</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-atc-mockups.png','ATC — Mockups')"><img src="assets/v2-atc-mockups.png" alt=""><div class="tile-label">Mockups</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6: Illustration -->
+    <div class="section" data-index="6">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">06 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Illustration</div></div>
+          <div class="chapter-desc">Digital &amp; hand-crafted illustration spanning type, space, nature &amp; form.</div>
+        </div>
+        <div class="chapter-main">
+
+          <div class="section-label">36 Days of Type</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-illus-36days.png','Illustration — 36 Days of Type')"><img src="assets/v2-illus-36days.png" alt=""><div class="tile-label">36 Days of Type</div></div>
+          </div>
+
+          <div class="section-label">Space</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-illus-space.png','Illustration — Space')"><img src="assets/v2-illus-space.png" alt=""><div class="tile-label">Space</div></div>
+          </div>
+
+          <div class="section-label">Fast as Hell &amp; Sacred Feminine</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-illus-fast.png','Illustration — Fast as Hell')"><img src="assets/v2-illus-fast.png" alt=""><div class="tile-label">Fast as Hell</div></div>
+            <div class="tile ar11" onclick="lb('assets/v2-illus-sacred.png','Illustration — Sacred Feminine')"><img src="assets/v2-illus-sacred.png" alt=""><div class="tile-label">Sacred Feminine</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-illus-misc.png','Illustrations — Misc')"><img src="assets/v2-illus-misc.png" alt=""><div class="tile-label">Misc</div></div>
+          </div>
+
+          <div class="section-label">WeCompete</div>
+          <div class="img-grid g2">
+            <div class="tile ar43" onclick="lb('assets/v2-illus-wc1.png','WeCompete — Series 1')"><img src="assets/v2-illus-wc1.png" alt=""><div class="tile-label">WeCompete 1</div></div>
+            <div class="tile ar43" onclick="lb('assets/v2-illus-wc2.png','WeCompete — Series 2')"><img src="assets/v2-illus-wc2.png" alt=""><div class="tile-label">WeCompete 2</div></div>
+          </div>
+
+          <div class="section-label">Bahama Breeze — Viva La Rita</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-illus-bahama.png','Bahama Breeze — Viva La Rita Mockups')"><img src="assets/v2-illus-bahama.png" alt=""><div class="tile-label">Viva La Rita — Mockups</div></div>
+          </div>
+
+          <div class="section-label">FitnessTracker+ &amp; Succulents</div>
+          <div class="img-grid g2">
+            <div class="tile ar34" onclick="lb('assets/v2-illus-fitness.png','FitnessTracker+ — Sun')"><img src="assets/v2-illus-fitness.png" alt=""><div class="tile-label">FitnessTracker+</div></div>
+            <div class="tile ar169" onclick="lb('assets/v2-illus-succulents.png','Illustration — Succulents')"><img src="assets/v2-illus-succulents.png" alt=""><div class="tile-label">Succulents</div></div>
+          </div>
+
+          <div class="section-label">ASME STEM</div>
+          <div class="img-grid g2">
+            <div class="tile ar43 span2" onclick="lb('assets/v2-illus-asme.png','Illustration — ASME STEM Icons')"><img src="assets/v2-illus-asme.png" alt=""><div class="tile-label">ASME STEM Icons</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 7: Music -->
+    <div class="section" data-index="7">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">07 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Music</div></div>
+          <div class="chapter-desc">Album artwork &amp; visual identity for musicians.</div>
+        </div>
+        <div class="chapter-main">
+
+          <div class="section-label">Gungor</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-music-gungor.png','Music — Gungor')"><img src="assets/v2-music-gungor.png" alt=""><div class="tile-label">Gungor</div></div>
+          </div>
+
+          <div class="section-label">Gungor — OWL</div>
+          <div class="img-grid g2">
+            <div class="tile ar34" onclick="lb('assets/v2-music-owl-dark.png','Gungor — OWL Dark')"><img src="assets/v2-music-owl-dark.png" alt=""><div class="tile-label">OWL Dark</div></div>
+            <div class="tile ar169" onclick="lb('assets/v2-music-owl-light.png','Gungor — OWL Light')"><img src="assets/v2-music-owl-light.png" alt=""><div class="tile-label">OWL Light</div></div>
+          </div>
+
+          <div class="section-label">LaPeer — 90's Kids</div>
+          <div class="img-grid g2">
+            <div class="tile ar11 span2" onclick="lb('assets/v2-music-lapeer.png','LaPeer — 90\'s Kids')"><img src="assets/v2-music-lapeer.png" alt=""><div class="tile-label">LaPeer — 90's Kids</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 8: Logos -->
+    <div class="section" data-index="8">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">08 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Logos</div></div>
+          <div class="chapter-desc">Logo design &amp; identity systems across clients.</div>
+        </div>
+        <div class="chapter-main">
+
+          <div class="section-label">Caulfield Realty</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-logos-caulfield.png','Logos — Caulfield Realty')"><img src="assets/v2-logos-caulfield.png" alt=""><div class="tile-label">Caulfield Realty</div></div>
+          </div>
+
+          <div class="section-label">Make Note</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-logos-makenote.png','Logos — Make Note')"><img src="assets/v2-logos-makenote.png" alt=""><div class="tile-label">Make Note</div></div>
+          </div>
+
+          <div class="section-label">Misc</div>
+          <div class="img-grid g2">
+            <div class="tile ar31 span2" onclick="lb('assets/v2-logos-misc.png','Logos — Misc')"><img src="assets/v2-logos-misc.png" alt=""><div class="tile-label">Misc Logos</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 9: Lettering -->
+    <div class="section" data-index="9">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">09 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Lettering</div></div>
+          <div class="chapter-desc">Hand lettering &amp; typographic compositions.</div>
+        </div>
+        <div class="chapter-main">
+
+          <div class="section-label">Speed</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-lettering-speed.png','Lettering — Speed')"><img src="assets/v2-lettering-speed.png" alt=""><div class="tile-label">Speed</div></div>
+          </div>
+
+          <div class="section-label">Ray Dalton</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-lettering-raydalton.png','Lettering — Ray Dalton')"><img src="assets/v2-lettering-raydalton.png" alt=""><div class="tile-label">Ray Dalton</div></div>
+          </div>
+
+          <div class="section-label">Misc</div>
+          <div class="img-grid g2">
+            <div class="tile ar43 span2" onclick="lb('assets/v2-lettering-misc.png','Lettering — Misc')"><img src="assets/v2-lettering-misc.png" alt=""><div class="tile-label">Misc</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- 10: Extras -->
+    <div class="section" data-index="10">
+      <div class="chapter">
+        <div class="chapter-sidebar">
+          <div class="chapter-num">10 / 10</div>
+          <div class="chapter-title-wrap"><div class="chapter-title">Extras</div></div>
+          <div class="chapter-desc">Miscellaneous projects &amp; explorations.</div>
+        </div>
+        <div class="chapter-main">
+
+          <div class="section-label">36|86 Landing Page</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-extras-3686.png','Extras — 36|86 Landing Page')"><img src="assets/v2-extras-3686.png" alt=""><div class="tile-label">36|86 Landing Page</div></div>
+          </div>
+
+          <div class="section-label">LA Music Gallery</div>
+          <div class="img-grid g2">
+            <div class="tile ar169 span2" onclick="lb('assets/v2-extras-la-music.png','Extras — LA Music Gallery')"><img src="assets/v2-extras-la-music.png" alt=""><div class="tile-label">LA Music Gallery</div></div>
+          </div>
+
+          <div class="section-label">The Amplify</div>
+          <div class="img-grid g2">
+            <div class="tile ar21 span2" onclick="lb('assets/v2-extras-amplify.png','Extras — The Amplify')"><img src="assets/v2-extras-amplify.png" alt=""><div class="tile-label">The Amplify</div></div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /strip -->
+</div><!-- /stage -->
+
+<!-- Fixed chrome -->
+<div id="logo" onclick="goTo(0)">Beau<br>Wingfield</div>
+<div id="counter"></div>
+<div id="progress"></div>
+
+<button class="arr gone" id="arr-prev" style="border-radius: 8px;" onclick="prev()" aria-label="Prev">←</button>
+<button class="arr" id="arr-next" style="border-radius: 8px;" onclick="next()" aria-label="Next">→</button>
+
+<nav id="nav" style="border-radius: 8px;">
+  <span class="nlabel" id="nlabel">Cover</span>
+  <div class="nsep"></div>
+  <button class="ndot active" onclick="goTo(0)"  title="Cover"></button>
+  <button class="ndot" onclick="goTo(1)"  title="skate."></button>
+  <button class="ndot" onclick="goTo(2)"  title="EA"></button>
+  <button class="ndot" onclick="goTo(3)"  title="Publix"></button>
+  <button class="ndot" onclick="goTo(4)"  title="MMRY Bank"></button>
+  <button class="ndot" onclick="goTo(5)"  title="ATC"></button>
+  <button class="ndot" onclick="goTo(6)"  title="Illustration"></button>
+  <button class="ndot" onclick="goTo(7)"  title="Music"></button>
+  <button class="ndot" onclick="goTo(8)"  title="Logos"></button>
+  <button class="ndot" onclick="goTo(9)"  title="Lettering"></button>
+  <button class="ndot" onclick="goTo(10)" title="Extras"></button>
+</nav>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLb()">
+  <button id="lb-close" onclick="closeLb()">Close ✕</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption"></div>
+</div>
+
+<script>
+  const LABELS = ['Cover','skate.','EA','Publix','MMRY Bank','ATC','Illustration','Music','Logos','Lettering','Extras'];
+  const TOTAL  = LABELS.length;
+  let cur = 0, busy = false;
+
+  const strip   = document.getElementById('strip');
+  const dots    = document.querySelectorAll('.ndot');
+  const nlabel  = document.getElementById('nlabel');
+  const counter = document.getElementById('counter');
+  const progress= document.getElementById('progress');
+  const arrPrev = document.getElementById('arr-prev');
+  const arrNext = document.getElementById('arr-next');
+
+  const SPRING = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+  function goTo(idx) {
+    if (idx === cur || busy) return;
+    busy = true; cur = idx;
+    strip.style.transition = `transform 0.72s ${SPRING}`;
+    strip.style.transform  = `translateX(-${idx * 100}vw)`;
+    updateUI(idx);
+    localStorage.setItem('lb-page', idx);
+    setTimeout(() => { busy = false; }, 800);
+  }
+
+  function next() { if (cur < TOTAL - 1) goTo(cur + 1); }
+  function prev() { if (cur > 0)         goTo(cur - 1); }
+
+  function updateUI(idx) {
+    dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    nlabel.textContent  = LABELS[idx];
+    counter.textContent = idx === 0 ? '' : `${LABELS[idx]} — ${idx} / ${TOTAL - 1}`;
+    progress.style.width = `${(idx / (TOTAL - 1)) * 100}%`;
+    arrPrev.classList.toggle('gone', idx === 0);
+    arrNext.classList.toggle('gone', idx === TOTAL - 1);
+  }
+
+  // Restore saved position
+  const saved = parseInt(localStorage.getItem('lb-page') || '0', 10);
+  if (saved > 0 && saved < TOTAL) {
+    cur = saved;
+    strip.style.transition = 'none';
+    strip.style.transform  = `translateX(-${cur * 100}vw)`;
+    requestAnimationFrame(() => { strip.style.transition = ''; });
+    updateUI(cur);
+  } else { updateUI(0); }
+
+  document.getElementById('enter-btn').addEventListener('click', e => { e.stopPropagation(); goTo(1); });
+  document.getElementById('cover').addEventListener('click', () => goTo(1));
+
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('open')) {
+      if (e.key === 'Escape') closeLb(); return;
+    }
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   prev();
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend',   e => {
+    const dx = tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 55) dx > 0 ? next() : prev();
+  }, {passive:true});
+
+  function lb(src, cap) {
+    document.getElementById('lb-img').src = src;
+    document.getElementById('lb-caption').textContent = cap;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
+  window.lb = lb; window.closeLb = closeLb;
+</script>
+</body>
+</html>
