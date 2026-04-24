@@ -83,6 +83,22 @@
     margin-top: 2.8rem;
     text-transform: uppercase;
   }
+  .default-btn {
+    margin-top: 3.6rem;
+    font-family: 'DigestiveSmall', serif;
+    font-size: clamp(10px, 1vw, 13px);
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 0.9em 2.4em;
+    cursor: pointer;
+    background: transparent;
+    transition: color 0.3s var(--spring), border-color 0.3s var(--spring), transform 0.4s var(--spring);
+  }
+  .default-btn:hover { color: var(--fg); border-color: rgba(240,237,232,0.45); transform: scale(1.06); }
+  .default-btn:active { transform: scale(0.96); }
+
   .enter-btn {
     margin-top: 3.6rem;
     font-family: 'DigestiveSmall', serif;
@@ -356,6 +372,7 @@
         <div class="chapter-sidebar">
           <div class="chapter-num">01 / 10</div>
           <div class="chapter-title-wrap" style="height: 900px;"><div class="chapter-title">skate.</div></div>
+          <button class="default-btn" id="default-btn" style="border-radius: 8px; font-size: 13px; padding: 12px 32px; margin: 64px 0px 0px; border-style: solid; border-width: 2px;">More</button>
           <div class="chapter-desc" style="font-size: 12px;">Game UI Design, Design Systems, &amp; Style Guide work for skate.</div>
         </div>
         <div class="chapter-main">
