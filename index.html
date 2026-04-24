@@ -51,6 +51,21 @@
     overflow: hidden;
   }
 
+  .section-fade {
+    width: 100vw;
+    height: 120px;
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(14,14,14,0.5);
+    backdrop-filter: blur(8px);
+    align-items: center;
+    flex-direction: row;
+    z-index: 2;
+  }
+
   .avatar {
     width: 400px;
     height: auto;
@@ -279,13 +294,13 @@
     position: fixed; top: 50%;
     transform: translateY(-50%) scale(1);
     z-index: 200;
-    width: 44px; height: 44px;
-    background: rgba(14,14,14,0.6);
+    width: 64px; height: 64px;
+    background: rgba(14,14,14,0.8);
     backdrop-filter: blur(8px);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     color: var(--fg); cursor: pointer;
     display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     transition: border-color 0.3s var(--spring), transform 0.4s var(--spring), background 0.3s;
   }
   .arr:hover { border-color: rgba(240,237,232,0.35); transform: translateY(-50%) scale(1.12); background: rgba(14,14,14,0.85); }
@@ -378,6 +393,8 @@
 
     <!-- 1: skate. -->
     <div class="section" data-index="1">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">01 / 11</div>
@@ -420,6 +437,8 @@
 
     <!-- 2: EA -->
     <div class="section" data-index="2">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">02 / 11</div>
@@ -454,6 +473,8 @@
 
     <!-- 3: Publix -->
     <div class="section" data-index="3">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">03 / 11</div>
@@ -513,6 +534,8 @@
 
     <!-- 5: ATC -->
     <div class="section" data-index="5">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">05 / 11</div>
@@ -542,6 +565,8 @@
 
     <!-- 6: Northland -->
     <div class="section" data-index="6">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">06 / 11</div>
@@ -569,6 +594,8 @@
 
     <!-- 7: Illustration -->
     <div class="section" data-index="7">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">07 / 11</div>
@@ -623,6 +650,8 @@
 
     <!-- 8: Music -->
     <div class="section" data-index="8">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">08 / 11</div>
@@ -654,6 +683,8 @@
 
     <!-- 9: Logos -->
     <div class="section" data-index="9">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">09 / 11</div>
@@ -684,6 +715,8 @@
 
     <!-- 10: Lettering -->
     <div class="section" data-index="10">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">010 / 11</div>
@@ -714,6 +747,8 @@
 
     <!-- 11: Extras -->
     <div class="section" data-index="11">
+      <div class="section-fade">
+      </div>
       <div class="chapter">
         <div class="chapter-sidebar">
           <div class="chapter-num">11 / 11</div>
